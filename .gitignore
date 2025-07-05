@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+
+# Byte-compiled / cache files
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# VS Code settings folder
+.vscode/
+
+# macOS
+.DS_Store
+
+# dotenv environment files
+.env
