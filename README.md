@@ -23,42 +23,42 @@ The goal is to reduce time spent digging through CI logs and help teams recover 
 
 ## Architecture
 ```markdown
-              ┌─────────────────────────────┐
-              │        GitHub Actions       │
-              │   (Backend & Frontend CI/CD)│
-              └────────────┬────────────────┘
-                           │
-                  Generate build logs
-                           │
-        ┌──────────────────▼──────────────────┐
-        │           Log Collector             │
-        │   (mvn.log / npm.log / test.log)    │
-        └──────────────────┬──────────────────┘
-                           │
-        ┌──────────────────▼──────────────────┐
-        │       Log Parser & Classifier       │
-        │  ┌────────────┐   ┌───────────────┐ │
-        │  │ MavenParser│   │ NpmParser     │ │
-        │  └────────────┘   └───────────────┘ │
-        │      → Error code, file, line       │
-        └──────────────────┬──────────────────┘
-                           │
-        ┌──────────────────▼──────────────────┐
-        │        Code Context Resolver        │
-        │    (GitHub API or local repository) │
-        │      → Code snippet ±10 lines       │
-        └──────────────────┬──────────────────┘
-                           │
-        ┌──────────────────▼─────────────────────┐
-        │             GPT Service                │
-        │   Prompt template depends on parser    │
-        │         (Java vs. JS/TS)               │
-        │ Response: explanation + fix suggestion │
-        └──────────────────┬─────────────────────┘
-                           │
-         ┌─────────────────▼──────────────────┐
-         │        Output Layer / Feedback     │
-         │    PR comments, Slack, Email, UI   │
-         └────────────────────────────────────┘
+                                  ┌─────────────────────────────┐
+                                  │        GitHub Actions       │
+                                  │   (Backend & Frontend CI/CD)│
+                                  └────────────┬────────────────┘
+                                               │
+                                      Generate build logs
+                                               │
+                            ┌──────────────────▼──────────────────┐
+                            │           Log Collector             │
+                            │   (mvn.log / npm.log / test.log)    │
+                            └──────────────────┬──────────────────┘
+                                               │
+                            ┌──────────────────▼──────────────────┐
+                            │       Log Parser & Classifier       │
+                            │  ┌────────────┐   ┌───────────────┐ │
+                            │  │ MavenParser│   │ NpmParser     │ │
+                            │  └────────────┘   └───────────────┘ │
+                            │      → Error code, file, line       │
+                            └──────────────────┬──────────────────┘
+                                               │
+                            ┌──────────────────▼──────────────────┐
+                            │        Code Context Resolver        │
+                            │    (GitHub API or local repository) │
+                            │      → Code snippet ±10 lines       │
+                            └──────────────────┬──────────────────┘
+                                               │
+                            ┌──────────────────▼─────────────────────┐
+                            │             GPT Service                │
+                            │   Prompt template depends on parser    │
+                            │         (Java vs. JS/TS)               │
+                            │ Response: explanation + fix suggestion │
+                            └──────────────────┬─────────────────────┘
+                                               │
+                             ┌─────────────────▼──────────────────┐
+                             │        Output Layer / Feedback     │
+                             │    PR comments, Slack, Email, UI   │
+                             └────────────────────────────────────┘
 
 ```
